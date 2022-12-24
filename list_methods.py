@@ -97,9 +97,11 @@ first_list = [1,2,3,4,5,6]
 #    [start::step] (no end parameter)
 first_list[1::2]    #//=> [2,4,6]
 first_list[::2]    #//=> [1,3,5]
-# with negative numbers, reverse the order
+# with negative numbers, reverse the order (starts at value 2 and goes backwards to value 1)
 first_list[1::-1]   #//=> [2,1]
+# the end is exclusive, so it does not include index 1(value 2) (starts at value 6 and goes backwards up UNTIL value 2)
 first_list[:1:-1]   #//=> [6,5,4,3]
+# starts at value 3 and goes backwards to value 1
 first_list[2::-1]   #//=> [3,2,1]
 
 # Tricks with slices:
