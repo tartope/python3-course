@@ -2,10 +2,12 @@
 first_list = [1,2,3,4]  #//=> [1,2,3,4]
 first_list.append(5)    #//=> [1,2,3,4,5]
 # print(first_list)
+#______________________________________________________________________________________
 
 # extend (adds multiple items to the end of a list):
 first_list.extend([6,7,8,9])    #//=> [1,2,3,4,5,6,7,8,9]
 # print(first_list)
+#______________________________________________________________________________________
 
 # insert (insert an item at a given index):
 first_list.insert(2, "Hi")  #//=> [1, 2, 'Hi', 3, 4, 5, 6, 7, 8, 9]
@@ -16,16 +18,19 @@ first_list.insert(-1, "The end!")   #//=> [1, 2, 'Hi', 3, 4, 5, 6, 7, 8, 'The en
 # inserts at very end after caluculating the length
 first_list.insert(len(first_list), "LAST")  #//=> [1, 2, 'Hi', 3, 4, 5, 6, 7, 8, 'The end!', 9, 'LAST']
 # print(first_list)
+#______________________________________________________________________________________
 
 # clear (removes all items from a list):
 new_list = [1,2,3,4]
 new_list.clear()    #//=> []
 # print(new_list)
+#______________________________________________________________________________________
 
 # pop (removes an item from a given index in a list and returns it; if no index is specified, it removes and returns the last item in the list):
 items = ["socks", "mug", "tea pot", "cat food"]
 # print(items.pop()) #//=> 'cat food'
 # print(items.pop(1))    #//=> 'mug'
+#______________________________________________________________________________________
 
 # remove (remove the first item from the list whose value is x (not index); throws a ValueError if the item is not found):
 num_list = [1,2,3,4,4,4]
@@ -33,6 +38,7 @@ num_list.remove(2)  #//=> [1, 3, 4, 4, 4]
 # print(num_list) 
 num_list.remove(4)  #//=> [1, 3, 4, 4] (because multiple 4's, it only removes the first one)
 # print(num_list)
+#______________________________________________________________________________________
 
 # index (returns the index of the specified item in the list):
 numbers = [5,6,7,8,9,10]
@@ -44,20 +50,24 @@ names.index("colt")    #//=> 0 (gives the first index where it finds "colt")
 names.index("colt",1)  #//=> 4 (find the index of value "colt", after the index of 1 (it's inclusive of 1))
 names.index("colt",2)  #//=> 4 (find the index of value "colt", after the index of 2 (it's inclusive of 2))
 names.index("colt",4,6)  #//=> 4 (find the index of value "colt", between the index of 4 - 6 (it's inclusive of 4))
+#______________________________________________________________________________________
 
 # count (accepts one input, and returns the number of times x appears in the list):
 names.count("colt") #//=> 2
 names.count("buddy") #//=> 0
 names.count("blue") #//=> 1
+#______________________________________________________________________________________
 
 # reverse (reverse the elements of the list (in-place)):
 first_list = [1,2,3,4]
 first_list.reverse()    #//=> [4, 3, 2, 1]
+#______________________________________________________________________________________
 
 # sort (sort the items of the list (in-place)):
 another_list = [6,4,1,2,5]
 another_list.sort() #//=> 
 # print(another_list) #//=> [1, 2, 4, 5, 6]
+#______________________________________________________________________________________
 
 # join:
 # -technically a STRING METHOD that takes an iterable argument
@@ -66,6 +76,7 @@ words = ["Coding", "Is", "Fun!"]
 " ".join(words) #//=> 'Coding Is Fun!'
 name = ["Mr", "Steele"]
 ". ".join(name) #//=> 'Mr. Steele'
+#______________________________________________________________________________________
 
 # Slicing (makes a new list using slices of the old list) Ex: some_list[start:end:step]:
 
@@ -112,6 +123,7 @@ string[::-1]    #//=> '!nuf si sihT'
 # -modifying portions of a list
 numbers = [1,2,3,4,5]
 numbers[1:3] = ["a","b", "c"]   #//=> [1,"a", "b", "c", 4, 5]
+#______________________________________________________________________________________
 
 # swapping values:
 names = ["James", "Michelle"]

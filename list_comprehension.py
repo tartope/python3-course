@@ -14,6 +14,7 @@ new_friends = [friend.upper() for friend in friends] #//=> ['ASHLEY', 'MATT', 'M
 new_friends2 = [friend[0].upper() for friend in friends] #//=> ['A', 'M', 'M']
 new_friends3 = [friend[0].upper() + friend[1:] for friend in friends] #//=> ['Ashley', 'Matt', 'Michael']
 # print(new_friends3)
+#______________________________________________________________________________________
 
 #takes in a number in the range and multiplies it by 10
 [num * 10 for num in range(1,6)] #//=> [10, 20, 30, 40, 50]
@@ -28,6 +29,7 @@ string_list = [str(num) for num in numbers] #//=> ['1', '2', '3', '4', '5']
 
 colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"]
 [color.upper() for color in colors] #//=> ['RED', 'ORANGE', 'YELLOW', 'GREEN', 'BLUE', 'INDIGO', 'VIOLET']
+#______________________________________________________________________________________
 
 
 #List Comprehension with Conditional Logic:
@@ -44,6 +46,7 @@ odds = [num for num in numbers_new if num % 2 != 0] #//=> [1, 3, 5]
 with_vowels = "This is so much fun!"
 # if the char is not in the "aeiou" string, add it to the new list
 ''.join(char for char in with_vowels if char not in "aeiou") #//=> 'Ths s s mch fn!'
+#______________________________________________________________________________________
 
 
 # Nested Lists (AKA multi demensional lists):
