@@ -71,7 +71,7 @@
 # name = "Buddy"
 # print(f"Nice try {name} but your guess of {guess} was incorrect.")
 
-# formating strings/interpolate variables (using '.format method', the old way(Python 2 -> 3.5)):
+# formating strings/interpolate variables (using '.format()' method, the old way(Python 2 -> 3.5)):
 # formatted2 = "I've told you {} times already!".format(10)
 # print(formatted2)
 
