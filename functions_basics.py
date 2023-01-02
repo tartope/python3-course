@@ -285,13 +285,13 @@ def say_hello():
     return "Hello!"
 
 #this syntax retrieves what's in the triple double quotes
-print(say_hello.__doc__) #//=> A simple function that returns the string hello
+# print(say_hello.__doc__) #//=> A simple function that returns the string hello
 
 def exponent3(num, power=2):
     """exponent(num,power) raises num to specified power. Power defaults of 2."""
     return num ** power
 
-print(exponent3.__doc__) #//=> exponent(num,power) raises num to specified power. Power defaults of 2. 
+# print(exponent3.__doc__) #//=> exponent(num,power) raises num to specified power. Power defaults of 2. 
 #_____________________________________________________________
 
 # More practice exercises:
@@ -350,3 +350,105 @@ def list_manipulation(list, command, location, value=None):
         list.append(value)
         return list
 
+# 8. Write a function called is_palindrome. A Palindrome is a word, phrase, number, or other sequence of characters which reads the same backward or forward. This function should take in one parameter and returns True or False depending on whether it is a palindrome. As a bonus, allow your function to ignore whitespace and capitalization so that is_palindrome('a man a plan a canal Panama') returns True.
+def is_palindrome(str):
+    # if input str is equal to reverse str, return True, else return False
+    if(str == str[::-1]):
+        return True
+    return False
+
+# print(is_palindrome("mom")) #//=> True
+# print(is_palindrome("a man a plan a canal panama")) #//=> False
+
+# version that removes white space:
+def is_palindrome2(str):
+    # use replace method to remove empty space
+    stripped = str.replace(" ", "")
+    # return boolean if stripped is equal to reverse stripped
+    return stripped == stripped[::-1]
+
+# print(is_palindrome2("mom")) #//=> True
+# print(is_palindrome2("a man a plan a canal panama")) #//=> True
+
+# 9. Write a function called frequency. This function accepts a list and a search_term (this will always be a primitive value) and returns the number of times the search_term appears in the list.
+def frequency(collection, search_term):
+    return collection.count(search_term)
+
+# print(frequency([1,2,3,4,4,4], 4)) #//=> 3
+
+# 10. Write a function called multiply_even_numbers. This function accepts a list of numbers and returns the product of all even numbers in the list.
+def multiply_even_numbers(collection):
+    total = 1
+    for num in collection:
+        if(num % 2 == 0):
+            total *= num
+    return total
+
+# print(multiply_even_numbers([2,3,4,5,6])) #//=> 48
+
+# 11. Write a function called capitalize. This function accepts a string and returns the same string with the first letter capitalized.  You may want to use slices to help you out.
+# 1 capitalize("jamaica") # "Jamaica"
+# 2 capitalize("chicken") # "Chicken"
+def capitalize(str):
+    return str[0].upper() + str[1:]
+
+# print(capitalize("chicken")) #//=> Chicken
+
+# 12. Write a function called compact. This function accepts a list and returns a list of values that are truthy values, without any of the falsey values.
+# compact([0,1,2,"",[], False, {}, None, "All done"])     # [1,2, "All done"]
+def compact(collection):
+    new_collection = []
+    for char in collection:
+        # "if char == True" does not work (not sure why)
+        if char:
+            new_collection.append(char)
+    return new_collection
+
+# print(compact([0,1,2,"",[], False, {}, None, "All done"]))  #//=> [1, 2, 'All done']
+
+# list comprehension version:
+def compact2(collection):
+    # return the character for every character in collection, if character is True
+    return [char for char in collection if char]
+
+# print(compact2([0,1,2,"",[], False, {}, None, "All done"]))  #//=> [1, 2, 'All done']
+
+# 13. Write a function called intersection. This function should accept two lists and return a list with the values that are in both input lists.
+# intersection([1,2,3], [2,3,4])    #[2,3]
+# intersection(['a','b','z'], ['x','y','z']) .  # ['z']
+def intersection(lst1, lst2):
+    # change both lists to sets
+    set1 = set(lst1)
+    set2 = set(lst2)
+    # use Set Math intersection method "&" to generate list only of values in both lists, change it to a list, and assign to variable
+    new_list = list(set1 & set2)
+    # return the new list
+    return new_list
+
+# print(intersection([1,2,3], [2,3,4])) #//=> [2, 3]
+
+# 14. Write a function called partition. This function accepts a list and a callback function (which you can assume returns True  or False  ). 
+# The function should iterate over each element in the list and invoke the callback function at each iteration. 
+# If the result of the callback function is True , the element should go into the first list (i.e. the "truthy" list).
+# If the result of the callback function is False , the element should go into the second list (i.e. the "falsy" list).
+# When it's finished, partition should return both lists inside of one larger list, like so:
+# [truthy_list, falsy_list] 
+def isEven(num):
+    # returns boolean of this result
+    return num % 2 == 0
+
+def partition(lst, fn):
+    # make 2 lists to hold the true and false values
+    trues = []
+    falses = []
+    # loop through the list, calling fn with each value in the list
+    for val in lst:
+        # if the result of the value passed into the function is True: append the value to trues, else: append the value to falses
+        if fn(val):
+            trues.append(val)
+        else:
+            falses.append(val)
+    # return [trues, falses] inside an list
+    return [trues, falses]
+
+# print(partition([1,2,3,4], isEven)) #//=> [[2,4],[1,3]]

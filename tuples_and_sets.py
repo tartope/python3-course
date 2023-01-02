@@ -158,7 +158,7 @@ math_students & biology_students #//=> {'Matthew', 'James'}
 # dictionary comprehension syntax
 {x: x**2 for x in range(10)} #//=> {0: 0, 1: 1, 2: 4, 3: 9, 4: 16, 5: 25, 6: 36, 7: 49, 8: 64, 9: 81} <-- returns a dictionary
 # set comprehension using string with duplicates
-{char.upper() for char in "hello"} #//=> {'O', 'E', 'L', 'H'}  <--returns one of each character uppper cased (no order)
+{char.upper() for char in "hello"} #//=> {'O', 'E', 'L', 'H'}  <--returns one of each character upper cased (no order)
 
 string = "hello"
 {char for char in string if char in "aeiou"} #//=> {'e', 'o'}
