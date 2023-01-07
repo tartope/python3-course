@@ -1,5 +1,8 @@
 # use 'python3' to open a REPL and 'cmd+D' or 'quit()' to exit.
 # use 'python3 <fileName>' to run code in terminal.
+# open REPL and use 'help(method name)' to get info on that method (ie. help(list)).
+# use 'type(variable name)' to get data type of the value in that variable.
+
 # print('Hello World!')
 # print('Goodbye World!')
 #__________________________
