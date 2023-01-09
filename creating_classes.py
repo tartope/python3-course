@@ -25,9 +25,27 @@ class User:
         # anytime a new user is initialized, add one to active_users
         User.active_users += 1  # <-- refers to the class attribute/variable
 
-    def logout(self):
-        User.active_users -= 1 
-        return f"{self.first} has logged out."
+    # __repr__ method (also an instance method)
+    # when a user is printed, it turns this "<__main__.User object at 0x1027dc050>", into this "Tom is 89"; it turns it into a readable format that can be printed out
+    def __repr__(self):
+        return f"{self.first} is {self.age}"
+
+    # class methods:
+    # use this decorator to signifty that below it is a class method
+    @classmethod
+    # use the "cls" parameter, not the self parameter because it signifies that we'll be working with the acutual class
+    def display_active_users(cls):
+        return f"There are currently {cls.active_users} active users."
+
+    @classmethod
+    # this class method converts a string of data into a new instance
+    # parameters are class and the data that's in string form
+    def from_string(cls, data_str):
+        # create 3 variables and assign the split data into them (split the data by commas)
+        first, last, age = data_str.split(",")
+        # return an instance using this class method with the data (this will run __init__, just like "user1 = User("Joe", "Smith", 68)")
+        return cls(first, last, int(age))
+
 
     # instance methods:
     # below are getters (they get information but never change anything)
@@ -43,18 +61,22 @@ class User:
     def is_senior(self):
         return self.age >= 65
 
-    # setters
+    # setters (they change information)
     def birthday(self):
         self.age += 1
         return f"Happy {self.age}th, {self.first}!"
+
+    def logout(self):
+        User.active_users -= 1 
+        return f"{self.first} has logged out."
 
 # user1 = User() #//=> A new uswer has been made!
 # user2 = User() #//=> A new uswer has been made!
 # user3 = User() #//=> A new uswer has been made!
 
-# user1 = User("Joe", "Smith", 68)
+user1 = User("Joe", "Smith", 68)
 # print(user1.first, user1.last, user1.age) #//=> Joe Smith 68
-# user2 = User("Blanca", "Lopez", 41)
+user2 = User("Blanca", "Lopez", 41)
 # print(user2.first, user2.last) #//=> Blanca Lopez
 # print(user2.full_name())  #//=> Blanca Lopez
 # print(user1.initials())  #//=> J.S.
@@ -72,6 +94,31 @@ class User:
 # print(User.active_users) #//=> 2
 # print(user2.logout()) #//=>  Blanca has logged out.
 # print(User.active_users) #//=> 1
+
+# Referring to class methods:
+# user1.display_active_users() #//=>  <class '__main__.User'>    <-- can call it with instance variable but better to call it with class name as seen below
+
+# called with class name
+# User.display_active_users() #//=>  <class '__main__.User'>
+# print(User.display_active_users())  #//=> There are currently 2 active users.
+# user1 = User("Joe", "Smith", 68)
+# user2 = User("Blanca", "Lopez", 41)
+# print(User.display_active_users())  #//=> There are currently 4 active users.
+
+tom = User.from_string("Tom, Jones, 89")
+# print(tom.first)  #//=>  Tom
+# print(tom.full_name())  #//=>  Tom Jones
+# print(tom.birthday()) #//=>  Happy 90th, Tom!
+
+# Referring to __repr__ :
+print(tom) #//=>  <__main__.User object at 0x1027dc050>
+# after the __repr__ method
+print(tom)  #//=>  Tom is 89
+
+j = User("Judy", "Steele", 18)
+print(j) #//=>  Judy is 18
+j = str(j) 
+print(j)  #//=> Judy is 18
 #_____________________________________________________________
 
 # Practice example 1.
@@ -232,3 +279,4 @@ c2 = Chicken(name="Amelia", species="Speckled Sussex")
 # print(c2.lay_egg())  #//=> 1
 # print(c2.lay_egg())  #//=> 2
 # print(Chicken.total_eggs) #//=> 3
+#_____________________________________________________________
