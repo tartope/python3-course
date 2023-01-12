@@ -309,7 +309,159 @@ class NPC(Character):
         return "{} says: 'I heard there were mosters running around last night!'".format(self.name)
 
 villager = NPC("Bob", 100, 12)
-print(villager.name)  #//=> Bob
-print(villager.hp)  #//=> 100
-print(villager.level)  #//=> 12
-print(villager.speak())  #//=> Bob says: 'I heard there were mosters running around last night!'
+# print(villager.name)  #//=> Bob
+# print(villager.hp)  #//=> 100
+# print(villager.level)  #//=> 12
+# print(villager.speak())  #//=> Bob says: 'I heard there were mosters running around last night!'
+#_______________________________________________________________
+
+# Multiple Inheritances:
+
+class Aquatic:
+    def __init__(self, name):
+        print("AQUATIC INIT")
+        self.name = name
+
+    def swim(self):
+        return f"{self.name} is swimming"
+
+    def greet(self):
+        return f"I am {self.name} of the sea!"
+
+class Ambulatory:
+    def __init__(self, name):
+        print("AMBULATORY INIT")
+        self.name = name
+
+    def walk(self):
+        return f"{self.name} is walking"
+
+    def greet(self):
+        return f"I am {self.name} of the land!"
+
+class Penguin(Ambulatory, Aquatic):
+    def __init__(self, name):
+        print("PENGUIN INIT")
+        super().__init__(name= name)
+        # if you want both Aquatic and Ambulatory inits to run, you can just manually call them
+        Aquatic.__init__(self, name= name)
+
+    # or you can remove super() and just call both parents in init method
+    # def __init__(self, name):
+    #     print("PENGUIN INIT")
+    #     Ambulatory.__init__(self, name= name)
+    #     Aquatic.__init__(self, name= name)
+
+# jaws = Aquatic("Jaws")
+# lassie = Ambulatory("Lassie")
+# captain_cook = Penguin("Captain Cook")
+
+# Penguin instance is getting methods from both parent/base classes
+# print(captain_cook.swim())  #//=> Captain Cook is swimming
+# print(captain_cook.walk())  #//=> Captain Cook is walking
+
+# # calls the greet from Ambulatory, not Aquatic, because Ambulatory is first parameter passed into Penguin class (see which print statements are run inside init method when a Penguin instance is made)
+# print(captain_cook.greet())  #//=> I am Captain Cook of the land!
+
+# Result with captain_cook is initialized:
+# PENGUIN INIT
+# AMBULATORY INIT
+
+# if you want both Aquatic and Ambulatory inits to run, you can just manually call them, then all 3 print statements will run when Penguin instance is made
+# Result when captain_cook is initialized after adding "Aquatic.__init__(self, name=name)" to Penguin init method:
+# PENGUIN INIT
+# AMBULATORY INIT
+# AQUATIC INIT
+#_______________________________________________________________
+
+# Method Resolution Order (MRO):
+
+# B and C inherit from A, and D inherits from B and C
+class A:
+    def do_something(self):
+        print("Method Defined In: A")
+
+class B(A):
+    def do_something(self):
+        print("Method Defined In: B")
+        # super called here refers to (D, B, C)
+        super().do_something()
+
+class C(A):
+    def do_something(self):
+        print("Method Defined In: C")
+        # super called here refers to (D, B, C, A)
+        super().do_something()
+
+class D(B, C):
+    def do_something(self):
+        print("Method Defined In: D")
+        # super called here refers to (D, B)
+        super().do_something()
+
+
+# ways to definitively determine the order:
+# print(D.__mro__)  #//=> (<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
+# print(D.mro())  #//=> [<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>]
+# print(help(D))  #//=> takes you to a help menu that shows the order (use "q" to exit)  (the order is D, B, C, A, object)
+
+thing = D()
+# thing.do_something()  #//=> Method Defined In: D
+#_______________________________________________________________
+
+# Practice example 2.
+# MRO Genetics
+# Do you remember Gregor Mendel  from biology? We're going to simulate basic Mendelian inheritance in this exercise. You don't need to know what that means, but basically imagine a family where all the kids look exactly like one parent, maybe that parent has more "dominant" genetic traits than the other parent.
+# Create three classes, Mother , Father , and Child .
+# Let Mother have the "dominant" traits:
+# eye_color = "brown"
+# hair_color = "dark brown"
+# hair_type = "curly"
+# Let Father  have "recessive" traits:
+# eye_color = "blue"
+# hair_color = "blond"
+# hair_type = "straight"
+# Now define Child  to have the same attributes, eye_color , hair_color , and hair_type , but don't set them on the class.  Instead, let Child's Method Resolution Order be such that Child inherits from Mother  first, then Father .
+class Mother:
+    def __init__(self):
+        self.eye_color = "brown"
+        self.hair_color = "dark brown"
+        self.hair_type = "curly"
+        
+class Father:
+    def __init__(self):
+        self.eye_color = "blue"
+        self.hair_color = "blond"
+        self.hair_type = "straight"
+        
+class Child(Mother, Father):
+    pass
+#_______________________________________________________________
+
+# Polymorphism and Inheritance:
+# 1. Method overriding:
+
+class Animal():
+    def speak(self):
+        raise NotImplementedError("Subclass needs to implement this method")
+
+class Dog(Animal):
+    def speak(self):
+        return "woof"
+
+class Cat(Animal):
+    def speak(self):
+        return "meow"
+
+class Fish(Animal):
+    pass
+
+
+d = Dog()
+print(d.speak())  #//=> woof
+
+c = Cat()
+print(c.speak())  #//=> meow
+
+f = Fish()
+print(f.speak())  #//=> NotImplementedError: Subclass needs to implement this method
