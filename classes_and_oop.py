@@ -1,3 +1,5 @@
+from copy import copy
+
 # Inheritance
 
 # Parent/base class
@@ -342,11 +344,12 @@ class Ambulatory:
 class Penguin(Ambulatory, Aquatic):
     def __init__(self, name):
         print("PENGUIN INIT")
+        # i believe calls only the first parent
         super().__init__(name= name)
         # if you want both Aquatic and Ambulatory inits to run, you can just manually call them
         Aquatic.__init__(self, name= name)
 
-    # or you can remove super() and just call both parents in init method
+    # or you can remove super() and just call both parents in init method (however, super() is the preferred way to reference the parent since it follows MRO automatically)
     # def __init__(self, name):
     #     print("PENGUIN INIT")
     #     Ambulatory.__init__(self, name= name)
@@ -374,7 +377,8 @@ class Penguin(Ambulatory, Aquatic):
 # AQUATIC INIT
 #_______________________________________________________________
 
-# Method Resolution Order (MRO):
+# Method Resolution Order (MRO) (super() is the preferred way to reference the parent since it follows MRO automatically):
+# MRO: the order in which Python looks up (AKA resolves) methods on a class, influenced by inheritance
 
 # B and C inherit from A, and D inherits from B and C
 class A:
@@ -458,10 +462,162 @@ class Fish(Animal):
 
 
 d = Dog()
-print(d.speak())  #//=> woof
+# print(d.speak())  #//=> woof
 
-c = Cat()
-print(c.speak())  #//=> meow
+# c = Cat()
+# print(c.speak())  #//=> meow
 
-f = Fish()
-print(f.speak())  #//=> NotImplementedError: Subclass needs to implement this method
+# f = Fish()
+# print(f.speak())  #//=> NotImplementedError: Subclass needs to implement this method
+#_______________________________________________________________
+
+# Special__magic__methods: below uses special methods to determine how "+" and "*" should work on our Human class
+
+class Human:
+    def __init__(self, first, last, age):
+        self.first = first
+        self.last = last
+        self.age = age
+
+    def __repr__(self):
+        return f"Human named {self.first} {self.last} aged {self.age}"
+
+    def __len__(self):
+        return self.age
+
+    # this method uses the add operator to "add" two Humans and make a new Human:
+    # self refers to whatever came first/the first operand (ie. j), and other refers to the second thing/the second operand that's added (ie. k)
+    def __add__(self, other):
+        # check to make sure it's a Human (if instance other, is Human)
+        if isinstance(other, Human):
+            # return a new Human with the attributes below
+            return Human(first= "Newborn", last= self.last, age= 0)
+        # if it's not a Human, return this string
+        return "You can't add that!"
+
+    # # this method clones Humans to make twins or triplets:
+    # # self refers to whatever came first/first operand (ie. j), and other refers to the second thing/second operand that's added (ie. 2)
+    # def __mul__(self, other):
+    #     return "YOU ARE MULTIPLYING HUMANS!"
+
+    # # this method clones Humans to make twins or triplets:
+    # # self refers to whatever came first/first operand (ie. j), and other refers to the second thing/second operand that's added (ie. 2)
+    # def __mul__(self, other):
+    #     # check if other is an instance of int (if instance other, is int)
+    #     if isinstance(other, int):
+    #         # return list of new Humans for every i in range of other
+    #         return [self for i in range(other)]
+    #     return "Can't multiply!"
+
+    # this method clones Humans to make twins or triplets:
+    # self refers to whatever came first/first operand (ie. j), and other refers to the second thing/second operand that's added (ie. 2)
+    def __mul__(self, other):
+        # check if other is an instance of int (if instance other, is int)
+        if isinstance(other, int):
+            # return list of new Humans for every i in range of other
+            # copy makes a new copy/space in memory for each copy so they are separate
+            return [copy(self) for i in range(other)]
+        return "Can't multiply!"
+
+
+j = Human("Jenny", "Larson", 47)
+k = Human("Kevin", "Jones", 49)
+# without repr method, print(j) //=> <__main__.Human object at 0x102f44f50>
+# with repr method:
+# print(j)  #//=> Human name Jenny Larson
+# print(len(j))  #//=> 47
+
+# print(j + k)  #//=>  Human named Newborn Larson aged 0
+# print(j + 2)  #//=>  You can't add that!
+
+# first mul method:
+# print(j * 2)  #//=>  YOU ARE MULTIPLYING HUMANS!
+# the order matters: it looks for the first operand first
+# print(2 * j)  #//=>  TypeError: unsupported operand type(s) for *: 'int' and 'Human'
+
+# second mul method:
+# print(j * 2) #//=> [Human named Jenny Larson aged 47, Human named Jenny Larson aged 47]
+# print(j * "a") #//=> Can't multiply!
+
+# triplets = j * 3
+# # try to change the second object in the lists name to Jessica
+# triplets[1].first = "Jessica"
+# all have same name because they are all the same object, not a clone; this list is 3 references to the same thing
+# print(triplets)  #//=>  [Human named Jessica Larson aged 47, Human named Jessica Larson aged 47, Human named Jessica Larson aged 47]
+
+# third mul method (uses import statement at top of file); copy makes a new copy/space in memory for each copy so they are separate; below there are 3 copies:
+# print(triplets)  #//=>  [Human named Jenny Larson aged 47, Human named Jessica Larson aged 47, Human named Jenny Larson aged 47]
+
+# kevin and jessica having triplets:
+# triplets = (k + j) * 3
+# print(triplets) #//=>  [Human named Newborn Jones aged 0, Human named Newborn Jones aged 0, Human named Newborn Jones aged 0]
+#_______________________________________________________________
+
+# Special Methods and Inheritance:
+class GrumpyDict(dict):
+    # don't have to define init method because we inherit from dict; the init in dict will run instead because of MRO
+
+    def __repr__(self):
+        print("NONE OF YOUR BUSINESS")
+        # returns the repr method we created for super(ie. dict) using the arguments passed when creating a new instance of GrumpyDict
+        return super().__repr__()
+
+    # called if the key is not in the dictionary; used to override it
+    def __missing__(self, key):
+        print(f"YOU WANT {key}? WELL IT AINT HERE!")
+
+    # updates the data in the dictionary
+    def __setitem__(self, key, value):
+        print("YOU WANT TO CHANGE THE DICTIONARY?")
+        print("OK FINE...")
+        # make the call below to add a new key value pair to the dictionary
+        super().__setitem__(key, value)
+
+    # checks if something is in the dictionary
+    def __contains__(self, key):
+        print("NO IT AINT IN HERE!")
+        return False
+
+
+data = GrumpyDict({"first": "Tom", "animal": "cat"})
+# print(data) #//=> NONE OF YOUR BUSINESS
+#             #//=> {'first': 'Tom', 'animal': 'cat'}
+
+# before set item method:
+# data["city"]  #//=> YOU WANT city? WELL IT AINT HERE!
+
+# after set item method:
+# data["city"] = "Tokyo"  #//=> YOU WANT TO CHANGE THE DICTIONARY?
+#                         #//=> OK FINE...
+# print(data)  #//=> NONE OF YOUR BUSINESS
+#             #//=> {'first': 'Tom', 'animal': 'cat', 'city': 'Tokyo'}
+
+# "city" in data  #//=> NO IT AINT IN HERE!
+#_______________________________________________________________
+
+# Practice example 3.
+# Special Methods Train
+# Create a class Train  that has one attribute: num_cars  which is specified when the train is instantiated.
+# There should also be two special/magic/dunder methods on it:
+# One method that describes the train when we call print  on it by saying "x car train" where x is the number of cars (see example below)
+# One method that denotes the length of the train when we call len  on it
+# Example:
+# a_train = Train(4)
+# print(a_train)  # 4 car train
+# len(a_train)  # 4
+# Note: You do not need to instantiate Train  for the tests to pass. The tests will try to instantiate Train  for you.
+class Train:
+    def __init__(self, num_cars):
+        self.num_cars = num_cars
+    
+    def __repr__(self):
+        return "{} car train".format(self.num_cars)
+        
+    def __len__(self):
+        return self.num_cars
+        
+    pass
+
+a_train = Train(4)
+# print(a_train)  #//=> 4 car train
+# print(len(a_train))  #//=>  4
