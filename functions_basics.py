@@ -452,3 +452,4 @@ def partition(lst, fn):
     return [trues, falses]
 
 # print(partition([1,2,3,4], isEven)) #//=> [[2,4],[1,3]]
+

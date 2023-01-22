@@ -461,7 +461,7 @@ class Fish(Animal):
     pass
 
 
-d = Dog()
+# d = Dog()
 # print(d.speak())  #//=> woof
 
 # c = Cat()
@@ -527,7 +527,7 @@ k = Human("Kevin", "Jones", 49)
 # print(j)  #//=> Human name Jenny Larson
 # print(len(j))  #//=> 47
 
-# print(j + k)  #//=>  Human named Newborn Larson aged 0
+print(j + k)  #//=>  Human named Newborn Larson aged 0
 # print(j + 2)  #//=>  You can't add that!
 
 # first mul method:

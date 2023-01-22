@@ -173,3 +173,12 @@ len({char for char in string2 if char in "aeiou"}) == 5 #//=> True
 def are_all_vowels_in_string(string):
     # checks if resulting set is equal to 5, returns True
     return len({char for char in string if char in "aeiou"}) == 5
+
+
+sample_list = [1,2,3]
+sample_tuple = (1,2,3)
+sample_string = "awesome"
+
+print(len(sample_list))
+print(len(sample_tuple))
+print(len(sample_string))
