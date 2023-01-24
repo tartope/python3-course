@@ -88,5 +88,43 @@
 # - if you have a really long file, and you have a way that you can group some of the functions into a module, or separate file, you can do that too
 #_______________________________________________________________
 
-# Practice Example 3.
+# External Modules:
+# - built-in modules come with Python
+# - external modules are downloaded from the internet
+# - you can download external modules using "pip" (pip installs packages)
 
+# pip:
+# - package management system for Python
+# - as of 3.4, comes with Python by default
+# - run command: python3 -m pip install NAME_OF_PACKAGE
+
+# from termcolor import colored
+
+# a built-in function that can get a list of names that a certain package/module comes with or any object:
+# print(dir(termcolor))  #//=> ['ATTRIBUTES', 'COLORS', 'HIGHLIGHTS', 'RESET', '__all__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'annotations', 'colored', 'cprint', 'termcolor']
+
+# or 
+# print(help(termcolor))  #//=> will get a menu output in terminal of all functions and attributes for termcolor
+
+# by default the below line does not print anything, so we save it to a variable and print the variable
+# text = colored("Hi there", color="magenta")
+# print(text)  #//=> Hi there <-- printed to terminal in magenta
+
+# text = colored("Hi there", color="magenta",  on_color="on_yellow")
+# print(text)  #//=> Hi there <-- printed to terminal in magenta, highlighted in yellow
+
+# text = colored("Hi there", color="magenta",  on_color="on_cyan", attrs=["blink"])
+# print(text)  #//=> Hi there <-- printed to terminal in magenta, highlighted in cyan, supposed to be blinking
+
+# refer to ascii_art.py file for more practice
+#_______________________________________________________________
+
+# autopep8 Package: a package that you can download that will automatically format your code to conform to the pep8 style guide
+# see ugly_code.py file for reference
+#_______________________________________________________________
+
+# The __name__ Variable:
+# - when run, every Python file has a __name__ variable
+# - if the file is the main file being run, by default, its value is "__main__"
+# - otherwise, its value is the file name
+# - refer to say_hi.py and say_sup.py for examples
