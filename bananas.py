@@ -1,3 +1,6 @@
+# See modules.py file that defines custom modules
+# this file refers to apples.py and fruit.py
+
 def peel():
     return "Here's a delicious banana!"
 
