@@ -128,3 +128,5 @@ class Counter:
 # 8
 # 9
 #_____________________________________________________________
+
+# See deck_of_cards_exercise.py file to see iter() in that exercise
