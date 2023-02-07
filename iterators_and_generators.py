@@ -4,6 +4,10 @@
 # Iterable: an object which will return an Iterator when iter() is called on it.
 # -"Hello" is an iterable, but it is not an iterator.
 # -iter("Hello") returns an iterator.
+# - summary:
+#   -"Hello" is iterable, but not an iterator (can't be looped)
+#   -new_iterator = iter("Hello") returns an iterator (can be looped when next() is called on it)
+#   -next(new_iterator) returns the looped data until the StopIteration error runs
 
 name = "Oprah"      # the string "Oprah" is iterable but it's not an iterator
 # print(next(name)) #//=> TypeError: 'str' object is not an iterator
@@ -130,3 +134,141 @@ class Counter:
 #_____________________________________________________________
 
 # See deck_of_cards_exercise.py file to see iter() in that exercise
+#_____________________________________________________________
+
+# Generators:
+# - Generators are iterators; they are a subset of iterators (every generator is an iterator, but not every iterator is a generator)
+# - They are a quick, easy, short way of creating iterators.
+
+# - Can be created in two ways:
+# - Generators can be created with generator functions; generator functions use the yield keyword.
+# - Generators can be created with generator expressions.
+
+# Generator functions are like regular functions, but instead of the return keyword, they use the yield keyword.  Instead of returning once, they yield keyword can be used multiple times.  When a regular function is invoked, it returns the return value.  When a generator function is invoked, it returns a generator.
+
+# this is a generator function, it creates a generator when invoked
+def count_up_to(max):
+    count = 1
+    while count <= max:
+        # yield returns the value of count and it will pause; it will stay that way until next() is called on count_up_to()
+        yield count
+        count +=1
+
+# print(count_up_to(5)) #//=>  <generator object count_up_to at 0x102a44110>  <--returns a generator object
+counter = count_up_to(5)
+# print(counter)  #//=>  <generator object count_up_to at 0x102b00110>
+# # must call next() on it:
+# print(next(counter)) #//=> 1
+# print(next(counter)) #//=> 2
+# print(next(counter)) #//=> 3
+# print(next(counter)) #//=> 4
+# print(next(counter)) #//=> 5
+# print(next(counter)) #//=> StopIteration
+#_____________________________________________________________
+
+# Practice example 1.
+# Week Generator Exercise
+# Write a function called week, which returns a generator that yields each day of the week, starting with Monday and ending with Sunday.  After Sunday, the generator is exhausted.  It does not start over.
+def week():
+    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    for day in days:
+        yield day
+
+day = week()
+# print(next(day))  #//=>  Monday
+# print(next(day))  #//=>  Tuesday
+# print(next(day))  #//=>  Wednesday
+# print(next(day))  #//=>  Thursday
+# print(next(day))  #//=>  Friday
+# print(next(day))  #//=>  Saturday
+# print(next(day))  #//=>  Sunday
+# print(next(day))  #//=>  StopIteration
+#_____________________________________________________________
+
+# Practice exmaple 2.
+# yes_or_no
+# Write a function called yes_or_no, which returns a generator that first yields yes , then no , then yes , then no , and so on.
+# def yes_or_no():
+#     answer = 'yes'
+#     while True:
+#         yield answer
+#         # similar to a ternary operator in JavaScript: set answer to 'no', if answer equals 'yes', else set answer to 'yes'
+#         answer = 'no' if answer == 'yes' else 'yes'
+#_____________________________________________________________
+
+# Writing a Beat Making Generator:
+#  Make a beat counter that gives one beat at a time to the count of 4:
+
+# Not good approach:
+# def current_beat():
+#     # do this 100 times maximum
+#     max = 100
+#     # make a tuple
+#     nums = (1,2,3,4)
+#     # start a counter at zero
+#     i = 0
+#     # make a result list to return
+#     result = []
+#     # while the length of result is less than max
+#     while len(result) < max:
+#         # if i greater than or equal to the length of nums, reset it to 0
+#         if i >= len(nums): i = 0
+#         # append element to result
+#         result.append(nums[i])
+#         # increment the counter
+#         i += 1
+#     # return result
+#     return result
+# print(current_beat()) #//=> [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4]
+
+# Better approach:
+def current_beat():
+    # make a tuple
+    nums = (1,2,3,4)
+    # start a counter at zero
+    i = 0
+    # makes it an infinite loop because i resets to zero
+    while True:
+        # if i greater than or equal to the length of nums, reset it to 0
+        if i >= len(nums): i = 0
+        # yield one element at a time
+        yield nums[i]
+        # increment the counter
+        i += 1
+counter = current_beat()
+# print(next(counter)) #//=>  1
+# print(next(counter)) #//=>  2
+# print(next(counter)) #//=>  3
+# print(next(counter)) #//=>  4
+# print(next(counter)) #//=>  1
+# print(next(counter)) #//=>  2
+# print(next(counter)) #//=>  3
+# print(next(counter)) #//=>  4
+#_____________________________________________________________
+
+# Practice example 3.
+# make_song
+# Write a function called make_song, which takes a count and a beverage, and returns a generator that yields verses from a popular song about a the beverage. The number of verses in the song is determined by the count. 
+
+# Each verse of the song should involve one fewer beverage, until there are no beverages remaining. (Check the examples for details on the structure of the lyrics.)
+
+# The default count should be 99, and the default beverage should be soda.
+# instructors solution:
+# define function and pass parameters (give a default for verse count, and default for beverage type)
+def make_song(verses=99, beverage="soda"):
+    # for every number in range(start= starting number, stop= ending number(not inclusive), step= decrementation)(start at 99, end at 0, decrement by -1)
+    for num in range(verses, -1, -1):
+        if num > 1:
+            yield "{} bottles of {} on the wall.".format(num, beverage)
+        elif num == 1:
+            yield "Only 1 bottle of {} left!".format(beverage)
+        else:
+            yield "No more {}!".format(beverage)
+song = make_song(5, "beer")
+# print(next(song))  #//=>  5 bottles of beer on the wall.
+# print(next(song))  #//=>  4 bottles of beer on the wall.
+# print(next(song))  #//=>  3 bottles of beer on the wall.
+# print(next(song))  #//=>  2 bottles of beer on the wall.
+# print(next(song))  #//=>  Only 1 bottle of beer left!
+# print(next(song))  #//=>  No more beer!
+# print(next(song))  #//=>  StopIteration

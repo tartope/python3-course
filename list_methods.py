@@ -122,7 +122,7 @@ string = "This is fun!"
 string[::-1]    #//=> '!nuf si sihT'
 # -modifying portions of a list
 numbers = [1,2,3,4,5]
-numbers[1:3] = ["a","b", "c"]   #//=> [1,"a", "b", "c", 4, 5]
+numbers[1:3] = ["a","b","c"]   #//=> [1,"a", "b", "c", 4, 5]
 #______________________________________________________________________________________
 
 # swapping values:

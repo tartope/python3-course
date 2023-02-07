@@ -128,3 +128,11 @@
 # - if the file is the main file being run, by default, its value is "__main__"
 # - otherwise, its value is the file name
 # - refer to say_hi.py and say_sup.py for examples
+#_______________________________________________________________
+
+# Environment Set-up:
+# - install virtual environment globally: python3 -m pip install virtualenv
+# - create virtual environment in root of project with: python3 -m venv env
+# - load dependencies in requirements.txt file: python3 -m pip install -r requirements.txt
+# - run server with: python3 server.py (file name of server)
+# - run client with: python3 client.py (file name of client)
