@@ -249,9 +249,7 @@ counter = current_beat()
 # Practice example 3.
 # make_song
 # Write a function called make_song, which takes a count and a beverage, and returns a generator that yields verses from a popular song about a the beverage. The number of verses in the song is determined by the count. 
-
 # Each verse of the song should involve one fewer beverage, until there are no beverages remaining. (Check the examples for details on the structure of the lyrics.)
-
 # The default count should be 99, and the default beverage should be soda.
 # instructors solution:
 # define function and pass parameters (give a default for verse count, and default for beverage type)
@@ -272,3 +270,140 @@ song = make_song(5, "beer")
 # print(next(song))  #//=>  Only 1 bottle of beer left!
 # print(next(song))  #//=>  No more beer!
 # print(next(song))  #//=>  StopIteration
+#_____________________________________________________________
+
+# Testing Memory Usage with Generators:
+# fibonacci sequence: 0,1,1,2,3,5,8,13,21,34,55
+
+# basic function to make fibonacci sequence
+def fib_list(max):
+    # make empty list to return
+    nums = []
+    # a = 0; b = 1
+    a, b = 0, 1
+    # while the length of nums is less than max
+    while len(nums) < max:
+        # append b to the end of nums
+        nums.append(b)
+        # a = b (b is 1); b = a+b (a is 0, and b is 1)
+        a, b = b, a+b
+    # return nums
+    return nums
+# print(fib_list(10)) #//=> [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+
+# generator function for fibnonacci sequence:
+def fib_gen(max):
+    # assign 0 to x; assign 1 to y
+    x = 0
+    y = 1
+    # set counter to 0
+    count = 0
+    # while count is less than max
+    while count < max:
+        # x = y (y is 1); y = x+y (x is 0, and y is 1)
+        x, y = y, x+y
+        # use yield keyword to "return" x
+        yield x
+        # increment count
+        count +=1
+
+# for n in fib_gen(10):
+    # print(n) #//=> 1
+                # 1
+                # 2
+                # 3
+                # 5
+                # 8
+                # 13
+                # 21
+                # 34
+                # 55
+#_____________________________________________________________
+
+# Practice example 4.
+# get_multiples
+# Write a function called get_multiples, which accepts a number and a count, and returns a generator that yields the first count multiples of the number. 
+# The default number should be 1, and the default count should be 10.
+# instructors code:
+def get_multiples(num=1, count=10):
+    # set next numbe to num
+    next_num = num
+    # while the count is greater than 0
+    while count > 0:
+        # yield next_num
+        yield next_num
+        # decrement count
+        count -= 1
+        # update next_num to next_num + num
+        next_num += num
+
+evens = get_multiples(2,3)
+# print(next(evens)) #//=> 2
+# print(next(evens)) #//=> 4
+# print(next(evens)) #//=> 6
+# print(next(evens)) #//=> StopIteration
+
+# for n in get_multiples():
+#     print(n)  #//=> 1
+#                 # 2
+#                 # 3
+#                 # 4
+#                 # 5
+#                 # 6
+#                 # 7
+#                 # 8
+#                 # 9
+#                 # 10
+
+#_____________________________________________________________
+
+# Practice example 5.
+# get_unlimited_multiples
+# Write a function called get_unlimited_multiples, which accepts a number and returns a generator that will yield an unlimited number of multiples of that number.
+# The default number should be 1.
+def get_unlimited_multiples(num= 1):
+    # assign num to next_num
+    next_num = num
+    # infinite loop
+    while True:
+        # yield next_num
+        yield next_num
+        # update next_num to next_num + num
+        next_num += num
+
+sevens = get_unlimited_multiples(7)
+# for n in range(10):
+#     print(next(sevens))  #//=> 7
+#                             # 14
+#                             # 21
+#                             # 28
+#                             # 35
+#                             # 42
+#                             # 49
+#                             # 56
+#                             # 63
+#                             # 70
+#_____________________________________________________________
+
+# Generator Expressions:
+# -You can create generators from generator expressions
+# - Generator expressions look a lot like list comprehensions
+# - Generator expressions use () instead of []
+
+# regular generator function:
+def nums():
+    for num in range(1,5):
+        yield num
+
+# g = nums()
+# print(g) #//=> <generator object nums at 0x1045f9cb0>       <-- says generator object defined with generator function nums
+# print(next(g)) #//=> 1
+# print(next(g)) #//=> 2
+# print(next(g)) #//=> 3
+# print(next(g)) #//=> 4
+# print(next(g)) #//=> StopIteration
+
+# generator expression (works the same as above):
+g2 = (num for num in range(1,5))
+# print(g2)  #//=> <generator object <genexpr> at 0x104c95cb0>        <-- says generator object defined with generator expression
+#_____________________________________________________________
