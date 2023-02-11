@@ -1,3 +1,8 @@
+from random import choice
+from functools import wraps
+from time import time
+from time import sleep
+
 # Higher Order Funtion (a function that returns another function from inside, or accepts one or more functions as an argument):
 # - Example 1: a type of higer order function (passing functions as arguments)
 # def sum(n, func):
@@ -21,7 +26,7 @@
 
 
 # - Example 2: nesting a function within a function and returning the result of that function combined with something else
-# from random import choice
+#  ** import at top of page (from random import choice)
 
 # def greet(person):
 #     # greet() calls get_mood()
@@ -191,7 +196,8 @@
 # wraps perserves a functions metadata
 # when it is decorated
 # this is good dev behavior to do so other devs can read/pullup your docs as expected
-from functools import wraps
+
+# ** import at top of page (from functools import wraps)
 # def log_function_data(fn):
 #     # call wraps here; it's parameter needs to match the function called into log_function_data()
 #     @wraps(fn)
@@ -218,7 +224,8 @@ from functools import wraps
 # Building a speed test decorator:
 # example 1.
 # below tests generator expressions speed; without using decorators; not as clean as example 2:
-from time import time
+
+# ** import at top of page (from time import time)
 # SUMMING 10,000,000 Digits With Generator Expression
 # gen_start_time = time() # save start time
 # print(sum(n for n in range(100000000)))
@@ -240,6 +247,8 @@ from time import time
 
 # example 2.
 # below speed tests function using decorator; cleaner than above code:
+
+# ** import at top of page (from functools import wraps)
 # def speed_test(fn):
 #     @wraps(fn)
 #     def wrapper(*args, **kwargs):
@@ -272,6 +281,8 @@ from time import time
 # Practice example 1.
 # show_args
 # Write a function called show_args which accepts a function and returns another function. Before invoking the function passed to it, show_args should be responsible for printing two things: a tuple of the positional arguments, and a dictionary of the keyword arguments.
+
+# ** import at top of page (from functools import wraps)
 # def show_args(fn):
 #     @wraps(fn)
 #     def wrapper(*args, **kwargs):
@@ -294,6 +305,7 @@ from time import time
 # - make a decorator that prevented a function from being called with any keyword argument
 # - or prevent a function from being called with any numerical argument
 
+# ** import at top of page (from functools import wraps)
 # def ensure_no_kwargs(fn):
 #     @wraps(fn)
 #     def wrapper(*args, **kwargs):
@@ -314,6 +326,8 @@ from time import time
 # Practice Example 2.
 # double_return
 # Write a function called double_return which accepts a function and returns another function. double_return should decorate a function by returning two copies of the inner function's return value inside of a list.
+
+# ** import at top of page (from functools import wraps)
 def double_return(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -336,6 +350,8 @@ def greet(name):
 # Practice Example 3.
 # ensure_fewer_than_three_args
 # Write a function called ensure_fewer_than_three_args which accepts a function and returns another function. The function passed to it should only be invoked if there are fewer than three positional arguments passed to it. Otherwise, the inner function should return "Too many arguments!"
+
+# ** import at top of page (from functools import wraps)
 def ensure_fewer_than_three_args(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -359,6 +375,8 @@ def add_all(*nums):
 # only_ints
 # Write a function called only_ints which accepts a function and returns another function. The function passed to it should only be invoked if all of the arguments passed to it are integers. Otherwise the inner function should return "Please only invoke with integers."
 # instructors code below:
+
+# ** import at top of page (from functools import wraps)
 def only_ints(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -379,6 +397,8 @@ def add(x, y):
 # Practice Example 5.
 # ensure_authorized
 # Write a function called ensure_authorized which accepts a function and returns another function. The function passed to it should only be invoked if there exists a keyword argument with a name of "role" and a value of "admin". Otherwise, the inner function should return "Unauthorized"
+
+# ** import at top of page (from functools import wraps)
 def ensure_authorized(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -395,3 +415,122 @@ def show_secrets(*args, **kwargs):
 # print(show_secrets(role="nobody")) # "Unauthorized"
 # print(show_secrets(a="b")) # "Unauthorized"
 #_____________________________________________________________
+
+# Writing and ensuring first arg is Decorator:
+# Create decorators that take an argument
+
+# NOT WORKING CODE:
+# When we write:
+# @decorator
+# def func(*args, **kwargs):
+#     pass
+# # We're really doing:
+# func = decorator(func)
+
+# When we write:
+# @decorator_with_args(args)
+# def func(*args, **kwargs):
+#     pass
+# # We're really doing:
+# func = decorator_with_args(arg)(func)
+#---------------------------------------
+# the real code example below:
+
+# ** import at top of page (from functools import wraps)
+# for this, we pass in a value/arg, not a fn, as a parameter
+def ensure_first_arg_is(value):
+    # this inner function actually takes the fn parameter (the name "inner" doesn't matter); this is the decorator
+    def inner(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            # if args exist and the first arg is not equal to value passed, return the sentence below
+            if args and args[0] != value:
+                return f"First arg needs to be {value}"
+            # else, return the fn
+            return fn(*args, **kwargs)
+        # return the wrapper
+        return wrapper
+    # return the inner function
+    return inner
+
+@ensure_first_arg_is("burrito")
+# *foods replaces *args (name doesn't matter)
+def fav_foods(*foods):
+    print(foods)
+
+# print(fav_foods("burrito", "ice cream"))  #//=> ('burrito', 'ice cream')  <-- REMINDER: returns a tuple because args is a tuple
+# print(fav_foods("ice cream", "burrito"))  #//=> First arg needs to be burrito
+
+@ensure_first_arg_is(10)
+def add_to_ten(num1, num2):
+    return num1 + num2
+
+# print(add_to_ten(10,12))  #//=> 22
+# print(add_to_ten(1,2))  #//=> First arg needs to be 10
+#_____________________________________________________________
+
+# Enforcing Argument Types with A:
+# changing the arguments to string if not a string, and int if not an int
+
+# the outer func that takes the value (*types) as a parameter
+def enforce(*types):
+    # the inner function actually takes the fn parameter
+    def decorator(fn):
+        def new_func(*args, **kwargs):
+            # args are tuples and immutable so convert to list which is mutable
+            newargs = []
+            # zip together the argument with type, ie: ("hello", str) (5, int)
+            for(a, t) in zip(args, types):
+                # cast each argument with the type and append to newargs, ie: ["hello", 5]
+                newargs.append(t(a))
+            # return the fn passed in but with newargs
+            return fn(*newargs, **kwargs)
+        return new_func
+    return decorator
+
+# pass types wanted as paratmeters
+@enforce(str, int)
+def repeat_msg(msg, times):
+    for time in range(times):
+        print(msg)
+
+@enforce(float, float)
+def divide(a,b):
+    print(a / b)
+
+# two strings passed as arguments, changed to appropriate type
+# print(repeat_msg("hello", "5")) #//=> hello
+                                    # hello
+                                    # hello
+                                    # hello
+                                    # hello
+
+# two ints passed as arguments, changed to appropriate type
+# print(divide(1,2)) #//=> 0.5
+# two strings passed as arguments, changed to appropriate type
+# print(divide("1", "4")) #//=> 0.25
+#_____________________________________________________________
+
+# Practice Example 6.
+# delay
+# Write a function called delay which accepts a time and returns an inner function that accepts a function. When used as a decorator, delay will wait to execute the function being decorated by the amount of time passed into it. Before starting the timer, delay will also print a message informing the user that there will be a delay before the decorated function gets run.
+# (Hint: take a look at the sleep function from the built-in time module if you want to pause code execution for a certain amount of time.)
+
+# ** import at top of page (from time import sleep)
+# ** import at top of page (from functools import wraps)
+def delay(value):
+    def inner(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            print("Waiting {}s before running say_hi".format(value))
+            sleep(value)
+            return fn(*args,**kwargs)
+        return wrapper
+    return inner
+
+@delay(10)
+def say_hi():
+    return "hi"
+
+print(say_hi()) #//=> Waiting 3s before running say_hi
+                    # hi
