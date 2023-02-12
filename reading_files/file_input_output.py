@@ -189,6 +189,8 @@ def statistics(file_name):
 
 # print(statistics("alice_story.txt"))  #//=>  {'lines': 172, 'words': 2145, 'characters': 11227}
 #_____________________________________________________________
+
+# Practice Exercise 4.
 # find_and_replace
 # Write a function called find_and_replace, which takes in a file name, a word to search for, and a replacement word. Replaces all instances of the word in the file with the replacement word.
 # (Note: we've provided you with the first chapter of Alice's Adventures in Wonderland to give you some sample text to work with. This is also the text used in the tests.)
