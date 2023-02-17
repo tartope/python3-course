@@ -43,7 +43,7 @@ c = con.cursor()
 # data = ("Crocodile", "Dundee", 5)
 # # placeholder "?" for each value
 # query = "INSERT INTO friends VALUES (?, ?, ?)"
-# # pass in a tuple containing values to be added; REMEMBER: one item tuples need the comma at the end
+# # pass in data containing values to be added
 # c.execute(query, data)
 
 # Bulk INSERTS with Python:
