@@ -136,3 +136,35 @@
 # - load dependencies in requirements.txt file: python3 -m pip install -r requirements.txt
 # - run server with: python3 server.py (file name of server)
 # - run client with: python3 client.py (file name of client)
+#_______________________________________________________________
+
+# Environment Set-up for Django:
+# - install virtual environment globally: python3 -m pip install virtualenv
+# - create project directory and cd into it
+# - create virtual environment in root of project with: python3 -m venv env (or python3 -m venv .venv) (can use ls -a to see the .venv directory after it's created)
+# - open project directory (you will see the .venv directory), and activate the venv, run: . .venv/bin/activate   (activate this anytime you want to work on the project); to deactivate venv, in the shell just run: deactivate
+# - install django, run: pip install django (this will download django and any dependencies)
+# - install django framework, run: pip install djangorestframework (this is the tool used to create the rest API)
+# **- by default, django project comes with a security that blocks requests coming from different domains; to disable, run: pip install django-cors-headers
+# - see all commands, run: django-admin (you will see all the commands that can be used with this, like runserver or startproject)
+# - create project, run: django-admin startproject <projectname> .
+# - a wrapper around the django-admin that does a little extra set-up for us and makes things easier. start the server, run: python manage.py runserver
+# - take care of migrations error; with server running, activate venv, run: . .venv/bin/activate
+# - then run: python manage.py migrate
+# - use django's admin page to see different tables (and data inside); with server running, in the browser type /admin (you are brough to admin page where you login)
+# - set-up admin, run: python manage.py createsuperuser   (create a username, email, and password)
+# - to get a table on admin page, inside of project file make a new file, models.py
+# - inside file: from django.db import models
+# - create class for model
+# **- to use PostgreSQL, install the database adapter, run: pip install psycopg2
+# **- in settings: all 'rest_framework' and 'corsheaders' to INSTALLED_APPS; add 'CORS_ORIGIN_ALLOW_ALL = True'; add 'corsheaders.middleware.Cors.Middleware' to MIDDLEWARE; change DATABASES default engine to 'postgresql', add user, and add password.
+# **- create psql db; create superuser and password
+# - migrate, run (similar to creating schema files): python manage.py makemigrations <project name>
+# - you will see error "no installed app with label '<project name>'"; got to settings.py file and add <project name> to INSTALLED_APPS list
+# - apply to db, run (acutally migrates and creates table): python manage.py migrate
+# - register to different tables to show up in the admin page: create admin.py inside <project name>; inside from django.contrib import admin, from .models import <Project name>
+
+
+# - load dependencies in requirements.txt file: python3 -m pip install -r requirements.txt
+# - run server with: python3 server.py (file name of server)
+# - run client with: python3 client.py (file name of client)
