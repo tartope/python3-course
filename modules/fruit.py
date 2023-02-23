@@ -8,8 +8,8 @@
 # print(apples.offer())  #//=> Hey do you like apples?
 
 
-from bananas import dip_in_chocolate as dip
-import apples
+from modules.bananas import dip_in_chocolate as dip
+import modules.apples as apples
 
 print(dip())  #//=> Here's a delicious banana, dipped in chocolate!
 print(apples.offer())  #//=> Hey do you like apples?
