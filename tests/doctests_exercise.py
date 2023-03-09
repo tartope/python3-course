@@ -144,3 +144,60 @@
 #     elif(command == "add" and location == "end"):
 #         list.append(value)
 #         return list
+
+
+# def is_palindrome(str):
+#     """
+#     >>> is_palindrome("testing")
+#     False
+
+#     >>> is_palindrome("tacocat")
+#     True
+
+#     >>> is_palindrome("10")
+#     False
+
+#     >>> is_palindrome(10)
+#     Traceback (most recent call last):
+#         ...
+#     TypeError: 'int' object is not subscriptable
+#     """
+#     if(str == str[::-1]):
+#         return True
+#     return False
+
+
+# def frequency(collection, search_term):
+#     """
+#     >>> frequency([1,2,3,4,4,4], 4)
+#     3
+
+#     >>> frequency([True, False, True, True], False)
+#     1
+
+#     >>> frequency([True, False, True, True])
+#     Traceback (most recent call last):
+#         ...
+#     TypeError: frequency() missing 1 required positional argument: 'search_term'
+#     """
+#     return collection.count(search_term)
+
+
+def multiply_even_numbers(collection):
+    """
+    >>> multiply_even_numbers([2,3,4,5,6])
+    48
+
+    >>> multiply_even_numbers([1,22,33,44])
+    968
+
+    >>> multiply_even_numbers(44)
+    Traceback (most recent call last):
+        ...
+    TypeError: 'int' object is not iterable
+    """
+    total = 1
+    for num in collection:
+        if(num % 2 == 0):
+            total *= num
+    return total
