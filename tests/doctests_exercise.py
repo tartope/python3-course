@@ -183,21 +183,110 @@
 #     return collection.count(search_term)
 
 
-def multiply_even_numbers(collection):
+# def multiply_even_numbers(collection):
+#     """
+#     >>> multiply_even_numbers([2,3,4,5,6])
+#     48
+
+#     >>> multiply_even_numbers([1,22,33,44])
+#     968
+
+#     >>> multiply_even_numbers(44)
+#     Traceback (most recent call last):
+#         ...
+#     TypeError: 'int' object is not iterable
+#     """
+#     total = 1
+#     for num in collection:
+#         if(num % 2 == 0):
+#             total *= num
+#     return total
+
+
+# def capitalize(str):
+#     """
+#     >>> capitalize("tim")
+#     'Tim'
+
+#     >>> capitalize("matt")
+#     'Matt'
+
+#     >>> capitalize(10)
+#     Traceback (most recent call last):
+#         ...
+#     TypeError: 'int' object is not subscriptable
+#     """
+#     return str[0].upper() + str[1:]
+
+
+# def compact(collection):
+#     """
+#     >>> compact([0,1,2,"",[], False, {}, None, "All done"])
+#     [1, 2, 'All done']
+
+#     >>> compact([True, "hi", None])
+#     [True, 'hi']
+
+#     >>> compact(True)
+#     Traceback (most recent call last):
+#         ...
+#     TypeError: 'bool' object is not iterable
+#     """
+#     new_collection = []
+#     for char in collection:
+#         if char:
+#             new_collection.append(char)
+#     return new_collection
+
+
+# def intersection(lst1, lst2):
+#     """
+#     >>> intersection([1,2,3], [2,3,4])
+#     [2, 3]
+
+#     >>> intersection(['a','b','z'], ['x','y','z'])
+#     ['z']
+
+#     >>> intersection([1,2,3])
+#     Traceback (most recent call last):
+#         ...
+#     TypeError: intersection() missing 1 required positional argument: 'lst2'
+#     """
+#     set1 = set(lst1)
+#     set2 = set(lst2)
+#     new_list = list(set1 & set2)
+#     return new_list
+
+def isEven(num):
     """
-    >>> multiply_even_numbers([2,3,4,5,6])
-    48
+    >>> isEven(1)
+    False
 
-    >>> multiply_even_numbers([1,22,33,44])
-    968
+    >>> isEven(2)
+    True
 
-    >>> multiply_even_numbers(44)
+    >>> isEven("hi")
+    Traceback (most recent call last):
+        ...
+    TypeError: not all arguments converted during string formatting
+    """
+    return num % 2 == 0
+
+def partition(lst, fn):
+    """
+    >>> partition([1,2,3,4], isEven)
+    [[2, 4], [1, 3]]
+
+    >>> partition(22, isEven)
     Traceback (most recent call last):
         ...
     TypeError: 'int' object is not iterable
     """
-    total = 1
-    for num in collection:
-        if(num % 2 == 0):
-            total *= num
-    return total
+    trues = []
+    falses = []
+    for val in lst:
+        if fn(val):
+            trues.append(val)
+        else:
+            falses.append(val)
+    return [trues, falses]
