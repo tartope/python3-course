@@ -1,7 +1,7 @@
 # Why test?
 # - reduce bugs in existing code
 # - ensure bugs that are fixed stay fixed
-# - ensure tht new features don't break old ones
+# - ensure that new features don't break old ones
 # - ensure that cleaning up code (refactoring) doesn't introduce new bugs
 # - some people think it makes development more fun!
 
@@ -141,12 +141,12 @@
 # if there's a trailing whitespace after "True" that's under the arrows, the tests will pass; make sure there's no whitespace after the cursor.
 
 
-def make_dict(keys):
-    """
-    >>> make_dict(['a', 'b'])
-    {'b': True, 'a': True}
-    """
-    return {key: True for key in keys}
+# def make_dict(keys):
+#     """
+#     >>> make_dict(['a', 'b'])
+#     {'b': True, 'a': True}
+#     """
+#     return {key: True for key in keys}
 
 # Part of the failed test output from above; it's expecting the dict to be in the same order, even though dict's have no order
 # Failed example:
@@ -162,3 +162,59 @@ def make_dict(keys):
 # - clutters up our function code
 # - lacks many features of larger testing tools
 # - doctests can be brittle/finicky
+#_______________________________________________________________
+
+# Unit Testing:
+# - test smallest parts of an application in isolation (eg. units)
+# - good candidates for unit testing: individual classes, modules, or functions
+# - bad candidates for unit testing: an entire applictaion, dependencies across several classes or modules
+
+# unittest:
+# - comes with built-in assertions. See table on site: https://docs.python.org/3/library/unittest.html
+# - Python comes with a built-in module called unittest
+# - you can write unit tests encapsulated as classes that inherit from unittest.TestCase
+# - this inheritance gives you access to many assertion helpers that let you test the behavior of your functions
+# - you can run tests by calling unittest.main()
+
+# For examples: see activities.py and tests.py files
+
+# Commenting in Tests (see activities.py and tests.py files):
+# - add a docstring to the test 
+# - to see the comments run command: python3 <filename> -v
+
+# class SomeTests(unittest.TestCase):
+#     def first_test(self):
+#         """testing a thing"""
+#         self.assertEqual(thing(), "something")
+
+#     def second_test(self):
+#         """testing another thing"""
+#         self.assertEqual(another_thing(), "something else")
+#_______________________________________________________________
+
+# Types of Assertions with unit tests:
+# - self.assertEqual(x, y)  (are the values equal)
+# - self.assertNotEqual(x, y)  (are the values not equal)
+# - self.assertTrue(x)  (is the value Truthy)
+# - self.assertFalse(x)  (is the value Falsey)
+# - self.assertIsNone(x)  (make sure the value you get back is None)
+# - self.assertIsNotNone(x)  (make sure the value you get back is Not None)
+# - self.assertIn(x, y)  (make sure the value is IN range/list of values)
+# - self.assertNotIn(x, y)  (make sure the value is NOT IN a range/list of values)
+# - ...and more (See table on site: https://docs.python.org/3/library/unittest.html)
+#_______________________________________________________________
+
+# Testing for Errors:
+# - can use self.assertRaises to make sure we get an error in a certain situation; can also guarantee the type of that error
+
+# class SomeTests(unittest.TestCase):
+#     def testing_for_error(self):
+#         """testing for an error"""
+#         with self.assertRaises(IndexError):
+#             # the parameter should be a list like below
+#             l = [1,2,3]
+#             # this is an example of an error below
+#             l[100]
+#_______________________________________________________________
+
+# Before and Afer Hooks:
