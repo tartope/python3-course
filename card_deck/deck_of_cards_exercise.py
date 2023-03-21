@@ -91,7 +91,7 @@ class Deck:
 
 
 
-# card = Card("A", "Hearts")
+card = Card("A", "Hearts")
 # card2 = Card("10", "Diamonds")
 # card3 = Card("K", "Spades")
 # print(card.value)  #//=> A
