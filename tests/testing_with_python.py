@@ -174,7 +174,8 @@
 # - Python comes with a built-in module called unittest
 # - you can write unit tests encapsulated as classes that inherit from unittest.TestCase
 # - this inheritance gives you access to many assertion helpers that let you test the behavior of your functions
-# - you can run tests by calling unittest.main()
+# - you can run tests by calling unittest.main() at end of file
+# - to run tests, in tests file run: python3 <filename>
 
 # For examples: see activities.py and tests.py files
 
@@ -182,6 +183,7 @@
 # - add a docstring to the test 
 # - to see the comments run command: python3 <filename> -v
 
+# Example
 # class SomeTests(unittest.TestCase):
 #     def first_test(self):
 #         """testing a thing"""
@@ -207,6 +209,7 @@
 # Testing for Errors:
 # - can use self.assertRaises to make sure we get an error in a certain situation; can also guarantee the type of that error
 
+# Example
 # class SomeTests(unittest.TestCase):
 #     def testing_for_error(self):
 #         """testing for an error"""
@@ -218,3 +221,31 @@
 #_______________________________________________________________
 
 # Before and Afer Hooks:
+
+# setUp and tearDown:
+# - for larger applications, you may want similar application state before running tests
+# - setUp runs before each test method
+# - tearDown runs after each test method
+# - common use cases: adding/removing data from a test database, creating instances of a class
+
+# Example
+# class SomeTests(unittest.TestCase):
+#     def setUp(self):
+#         #do setup here
+#         pass
+
+#     def test_first(self):
+#         # setUp runs before
+#         # tearDown runs after
+#         pass
+
+#     def test_second(self):
+#         # setUp runs before
+#         # tearDown runs after
+#         pass
+
+#     def tearDown(self):
+#         # do teardown here
+#         pass
+
+# For examples: see robot.py and robot_tests.py files
