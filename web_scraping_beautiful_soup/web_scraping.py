@@ -32,5 +32,30 @@
 
 # Navigating with CSS Selectors
 # - use a method called "select" - returns a list of elements matching a CSS selector
+#   - Selector Cheatsheet:
+#   - Select by id of foo: #foo
+#   - Select by class of bar: .bar
+#   - Select children: div > p  (use the greater than symbol)
+#   - Select descendents: div p  (use a "space", the space between div and p)
+
+# see bs_basics.py file example
+
+# Accessing Data in Elements
+# - get_text(): access the inner text in an element; if there's no inner text, it returns nothing
+# - name: retrieves the tag name of a given element
+# - attrs: a dictionary of attributes that can be accessed
+# - can also access attributes values using brackets
+
+# see bs_basics.py file example
+
+# Navigating with Beautiful Soup
+# - Via Tags:
+#   - parent/parents
+#   - contents
+#   - next_sibling/next_siblings
+# - Via Searching (methods):
+#   - find_parent()/find_parents()
+#   - find_next_sibling()/find_next_siblings()
+#   -find_previous_sibling()/find_previous_siblings()
 
 # see bs_basics.py file example
