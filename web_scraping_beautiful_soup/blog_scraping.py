@@ -30,7 +30,7 @@ with open("blog_data.csv", "w") as csv_file:
         title = a_tag.h4.text
         # date (gets the child tag then the text)
         date = a_tag.time.text
-        # href/url for article (gets the attribute of the "a" tag)
+        # href/url for article (gets the attribute of the "a" tag by using the square bracket syntax)
         url = a_tag["href"]
         # write to csv (important to follow the same order as headers)
         csv_writer.writerow([title, date, url])
