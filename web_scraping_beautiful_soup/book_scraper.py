@@ -1,5 +1,9 @@
 # https://books.toscrape.com/
 
+# https://scrapy.org/
+# General Docs:
+# - https://docs.scrapy.org/en/latest/
+# Docs for Spiders to web crawl
 # https://docs.scrapy.org/en/latest/topics/spiders.html
 # - will be using the spider to "crawl" from one page to another while scraping
 
