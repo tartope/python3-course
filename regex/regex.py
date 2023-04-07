@@ -1,3 +1,5 @@
+import re 
+
 # What are Regular Expressions? (not Python specific)
 # A way of describing patterns within serach strings
 # In Python, we can take a pattern that we define and test inputs
@@ -118,3 +120,236 @@
 
 # res = pattern.findall('Call me at 415 555-4242 or 310 234-9999')  #//=> ['415 555-4242', '310 234-9999']
 #_______________________________________________________________
+
+# Validating Phone Numbers with Python
+
+# use import statement at top of page
+# take a big string and extracts a single phone number
+def extract_phone(input):
+    # define the pattern with compile() method (use boundaries to get the exact number)
+    phone_regex = re.compile(r'\b\d{3} \d{3}-\d{4}\b')
+    # compare it to the input
+    match = phone_regex.search(input)
+    # if it's a match, return the number; else return None
+    if match:
+        return match.group()
+    else:
+        return None
+
+# print(extract_phone("my number is 415 555-4242"))  #//=> 415 555-4242
+# print(extract_phone("my number is 415 555-424211"))  #//=> None
+# print(extract_phone("my number is 415 555-4242 sdfaf"))  #//=> 415 555-4242
+# print(extract_phone("415 555-4242"))                    #//=> 415 555-4242
+
+# take a big string and extracts all phone numbers found
+def extract_all_phones(input):
+    # define the pattern with compile() method (use boundaries to get the exact number)
+    phone_regex = re.compile(r'\b\d{3} \d{3}-\d{4}\b')
+    # compare it to the input
+    match = phone_regex.findall(input)
+    # if it's a match, return the list; else return None
+    if match:
+        return match
+    else:
+        return None
+
+# print(extract_all_phones("my number is 415 555-4242 or call me at 345 666-7899"))  #//=> ['415 555-4242', '345 666-7899']
+# print(extract_all_phones("my number is 415 55"))  #//=> None
+
+
+# checks if entire string is a phone number; returns True, otherwise returns False
+def is_valid_phone(input):
+    # define the pattern with compile() method (use ^ and $ to define start and end)
+    phone_regex = re.compile(r'^\d{3} \d{3}-\d{4}$')
+    match = phone_regex.search(input)
+    if match:
+        return True
+    else:
+        return False
+
+# print(is_valid_phone("415 555-4242"))  #//=> True
+# print(is_valid_phone("415 555-4242 jgjjh"))  #//=> False
+# print(is_valid_phone("uiuh 415 555-4242 jgjjh"))  #//=> False
+
+# another option:
+def is_valid_phone_two(input):
+    # define the pattern with compile() method
+    phone_regex = re.compile(r'\d{3} \d{3}-\d{4}')
+    # use fullmatch() method (only returns a match if the entire input string is a match)
+    match = phone_regex.fullmatch(input)
+    if match:
+        return True
+    else:
+        return False
+    
+# print(is_valid_phone_two("415 555-4242"))  #//=> True
+# print(is_valid_phone_two("415 555-4242 jgjjh"))  #//=> False
+# print(is_valid_phone_two("uiuh 415 555-4242 jgjjh"))  #//=> False
+#_______________________________________________________________
+
+# Practice Exercise 1:
+
+# Time Validating
+# Write a function called is_valid_time  that accepts a single string argument.  It should return True  if the string is formatted correctly as a time, like 3:15 or 12:48 and return False otherwise.  Note that times can start with a single number (2:30) or two (11:18).  
+
+# is_valid_time("10:45")       #True
+# is_valid_time("1:23")        #True
+# is_valid_time("10.45")       #False
+# is_valid_time("1999")        #False
+# is_valid_time("145:23")      #False
+# In order to return True, the string should ONLY contain the time, and no other characters
+
+# is_valid_time("it is 12:15") #False
+# is_valid_time("12:15")       #True
+# Don't worry about impossible times like 88:76, just focus on the formatting!
+
+# is_valid_time("34:55") #True
+
+# import re at top of page
+def is_valid_time(input):
+    time_regex = re.compile(r'^\d\d?:\d{2}$')
+    match = time_regex.search(input)
+    if match:
+        return True
+    return False
+
+# print(is_valid_time("10:45"))  #//=> True
+# print(is_valid_time("145:23")) #//=> False
+#_______________________________________________________________
+
+# Parsing URLs with Python
+# The example below matches the url and returns it by groups in a tuple.  Can use this to parse through URLs if you only need a piece of it.
+
+url_regex = re.compile(r'(https?)://(www\.[A-Za-z-]{2,256}\.[a-z]{2,6})([-a-zA-Z0-9@:%_\+.~#?&//=]*)')
+# match = url_regex.search("http://www.youtube.com/videos/dfasd/adff")
+match = url_regex.search("https://www.my-website.com/bio?data=blah&cat=yes")
+# print(match.group())  #//=> http://www.youtube.com/videos/dfasd/adff
+# print(match.group(0))  #//=> http://www.youtube.com/videos/dfasd/adff  <-- passing in 0 gives the entire match
+# print(match.group(1))  #//=> http  <-- passing in 1 gives the first group
+# print(match.group(2))  #//=> www.youtube.com  <-- passing in 2 gives the second group
+# print(match.group(3))  #//=> /videos/dfasd/adff  <-- passing in 3 gives the third group
+# print(match.groups())  #//=> ('http', 'www.youtube.com', '/videos/dfasd/adff')  <-- returns a tuple with all groups
+
+
+# print(f"Protocol: {match.group(1)}")
+# print(f"Domain: {match.group(2)}")
+# print(f"Everything Else: {match.group(3)}")
+#_______________________________________________________________
+
+# Practice Exercise 2:
+
+# Parsing Bytes Exercise
+# Write a function called parse_bytes  that accepts a single string.  It should return a list of the binary bytes contained in the string.  Each byte is just a combination of eight 1's or 0's. For example:
+
+# parse_bytes("11010101 101 323")    # ['11010101']
+
+# parse_bytes("my data is: 10101010 11100010")    # ['10101010', '11100010']
+
+# parse_bytes("asdsa")   # []
+
+# Hints: take advantage of \b Not all bytes will have a space before and after, some come at the beginning of a file or at the end.  Use findall!
+
+# import re at top of page
+def parse_bytes(input):
+    result = []
+    binary_regex = re.compile(r'[1+|0+]{8}')
+    match = binary_regex.findall(input)
+    for byte in match:
+        result.append(byte)
+    return result
+
+# print(parse_bytes("11010101 101 323"))  #//=>  ['11010101']
+# print(parse_bytes("my data is: 10101010 11100010"))  #//=> ['10101010', '11100010']
+# print(parse_bytes("asdsa"))                             #//=> []
+
+# Instructors Solution:
+def parse_bytes(input):
+    binary_regex = re.compile(r'\b[10]{8}\b')
+    results = binary_regex.findall(input)
+    return results
+#_______________________________________________________________
+
+# Symbolic Group Names
+
+def parse_name(input):
+    # this line below has not label for the first name and can be used with print statement "matches.group(2)"
+    # name_regex = re.compile(r'^(Mr\.|Mrs\.|Ms\.|Mdme\.) ([A-Za-z]+) ([A-Za-z]+)$')
+
+    # this line belwo has a label (?P<first>) for the first name and can be used with print statement "matches.group("first")"
+    name_regex = re.compile(r'^(Mr\.|Mrs\.|Ms\.|Mdme\.) (?P<first>[A-Za-z]+) (?P<last>[A-Za-z]+)$')
+
+    matches = name_regex.search(input)
+
+    # print(matches.group(2))  #//=> Tilda
+    # print(matches.group(3))  #//=> Swinton
+    # OR
+#     print(matches.group("first"))  #//=> Tilda
+#     print(matches.group("last"))  #//=> Swinton
+
+# parse_name("Mrs. Tilda Swinton")
+#_______________________________________________________________
+
+# Practice Exercise 3:
+
+# Date Parsing Exercise
+# Define a function called parse_date  that accepts a single string.  Your code should check to see if the string matches a date format.  We're going to use the DMY format of "dd/mm/yyyy", but it should also work with "dd.mm.yyyy" and "dd,mm,yyyy". If you are American, note that Day if before Month!  However, rather than simply returning True or False if the string matches...you should instead return a dictionary containing the three parts of the date with the keys "d" , "m" , and "y"  like so:
+
+# parse_date("01/22/1999") # {'d': '01', 'm': '22', 'y': '1999'}
+#  Note: the string should be an EXACT match, containing the date and nothing else. If there is no match, return None
+
+# parse_date("12,04,2003")  #{'d': '12', 'm': '04', 'y': '2003'}
+# parse_date("12.11.2003")  #{'d': '12', 'm': '11', 'y': '2003'}
+# parse_date("12.11.200312") #None
+
+# import re at top of page
+def parse_date(input):
+    date_regex = re.compile(r'^(?P<day>\d{2})[/,.](?P<month>\d{2})[/,.](?P<year>\d{4})$')
+    match = date_regex.search(input)
+    if match:
+        day = match.group('day')
+        month = match.group('month')
+        year = match.group('year')
+        result = dict(d= day, m= month, y= year)
+        return result
+    else:
+        return None
+    
+# print(parse_date("12,04,2003"))  #//=> {'d': '12', 'm': '04', 'y': '2003'}
+# print(parse_date("12.11.2003"))  #//=> {'d': '12', 'm': '11', 'y': '2003'}
+# print(parse_date("12.11.200312"))  #//=> None
+
+# Instructors Solution:
+def parse_date(input):
+    pattern = re.compile("^(\d\d)[,/.](\d\d)[,/.](\d{4})$")
+    match = pattern.search(input)
+    if match:
+        return {
+            "d": match.group(1),
+            "m": match.group(2),
+            "y": match.group(3),
+        }
+    return None
+#_______________________________________________________________
+
+# RegEx Compliation Flags
+
+# below pattern is for emails
+# pat = re.compile('r^([a-z0-9_\.-]+)@([0-9a-z\.-]+)\.([a-z\.]{2,6})$')
+
+# VERBOSE (can use re.VERBOSE or re.X): allows us to break up the RegEx on different lines and comment for easy reading (it ignores the whitespace created by each new line)
+pattern = re.compile(r"""
+    ^([a-z0-9_\.-]+)    # first part of email
+    @                   # single @ sign
+    ([0-9a-z\.-]+)      # email provider
+    \.                  # single period
+    ([a-z\.]{2,6})$     # com, org, net, etc.
+""", re.VERBOSE | re.IGNORECASE)
+
+match_lower = pattern.search("thomas123@yahoo.com")
+match_upper = pattern.search("Thomas123@Yahoo.com")
+print(match_lower.groups())  #//=> ('thomas123', 'yahoo', 'com')
+print(match_lower.group())  #//=> thomas123@yahoo.com
+
+# IGNORECASE (can use re.IGNORECASE or re.I): adding IGNORECASE allows RegEx to ignore casing in input
+print(match_upper.groups())  #//=> ('Thomas123', 'Yahoo', 'com')
+print(match_upper.group())  #//=> Thomas123@Yahoo.com
