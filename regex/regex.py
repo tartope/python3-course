@@ -347,9 +347,87 @@ pattern = re.compile(r"""
 
 match_lower = pattern.search("thomas123@yahoo.com")
 match_upper = pattern.search("Thomas123@Yahoo.com")
-print(match_lower.groups())  #//=> ('thomas123', 'yahoo', 'com')
-print(match_lower.group())  #//=> thomas123@yahoo.com
+# print(match_lower.groups())  #//=> ('thomas123', 'yahoo', 'com')
+# print(match_lower.group())  #//=> thomas123@yahoo.com
 
 # IGNORECASE (can use re.IGNORECASE or re.I): adding IGNORECASE allows RegEx to ignore casing in input
-print(match_upper.groups())  #//=> ('Thomas123', 'Yahoo', 'com')
-print(match_upper.group())  #//=> Thomas123@Yahoo.com
+# print(match_upper.groups())  #//=> ('Thomas123', 'Yahoo', 'com')
+# print(match_upper.group())  #//=> Thomas123@Yahoo.com
+#_______________________________________________________________
+
+# Regex Substitution Basics
+
+# Example of classified document
+text = "Last night Mrs. Daisy and Mr. White murdered Ms. Chow"
+
+pattern = re.compile(r"(Mr\.|Mrs\.|Ms\.) [a-z]+", re.I)
+# print(pattern.findall(text))  #//=> ['Mrs.', 'Mr.', 'Ms.']  <-- looks like it's not finding the full name because this is the way findall() works
+# print(pattern.search(text).group())  #//=> Mrs. Daisy  <-- search returns the first pattern
+
+# the whole name is redacted
+result = pattern.sub("REDACTED", text)
+# print(result)  #//=>  Last night REDACTED and REDACTED murdered REDACTED
+
+# just the name is redacted
+result1 = pattern.sub("\g<1> REDACTED", text)
+# print(result1)  #//=> Last night Mrs. REDACTED and Mr. REDACTED murdered Ms. REDACTED
+
+# this pattern helps to redact part of the name
+pattern1 = re.compile(r"(Mr\.|Mrs\.|Ms\.) ([a-z])[a-z]+", re.I)
+result2 = pattern1.sub("\g<1> \g<2>", text)
+# print(result2)  #//=> Last night Mrs. D and Mr. W murdered Ms. C
+#_______________________________________________________________
+
+# Practice Exercise 4:
+
+# Regex Profanity Filter
+# Define a function called censor  that accepts a single string. Rather than censoring any real profanity, we're going to censor any words that start with "frack".  This includes "fracking", "fracker", "frack", etc.  Replace the entire word with the string "CENSORED".  Your regex should be case insensitive. For example:
+
+# censor("Frack you")                #"CENSORED you"
+# censor("I hope you fracking die")  #"I hope you CENSORED die"
+# censor("you fracking Frack")       #"You CENSORED CENSORED"
+
+# see import re at top of page
+
+def censor(input):
+    pattern = re.compile(r"[frack][a-z]+", re.IGNORECASE)
+    result = pattern.sub("CENSORED", input)
+    return result
+
+# print(censor("Frack you"))  #//=> CENSORED you
+# print(censor("I hope you fracking die"))  #//=> I hope you CENSORED die
+# print(censor("you fracking Frack"))  #//=> you CENSORED CENSORED
+#_______________________________________________________________
+
+# Swapping File Names
+
+titles = [
+    "Significant Others (1987)",
+    "Tales of the City (1978)",
+    "The Days of Anna Madrigal (2014)",
+    "Mary Ann in Autumn (2010)",
+    "Further Tales of the City (1982)",
+    "Babycakes (1984)",
+    "More Tales of the City (1980)",
+    "Sure of You (1989)",
+    "Michael Tolliver Lives (2007)"
+]
+
+# sorts alphabetically based off the first character
+titles.sort()
+# print(titles)  #//=> ['Babycakes (1984)', 'Futher Tales of the City (1982)', 'Mary Ann in Autumn (2010)', 'Michael Tolliver Lives (2007)', 'More Tales of the City (1980)', 'Significant Others (1987)', 'Sure of You (1989)', 'Tales of the City (1978)', 'The Days of Anna Madrigal (2014)']
+
+# created new titles list
+fixed_titles = []
+
+# create pattern to sort based on date then title (ie. "1978 - Tales of the City")
+pattern = re.compile(r"^([\w ]+) \((\d{4})\)$")  #<-- the parentheses are only around the numbers in order to grab it without the parentheses
+# loop through titles
+for book in titles:
+    # create the new order for every book
+    result = pattern.sub("\g<2> - \g<1>", book)
+    # append the result to the new titles list
+    fixed_titles.append(result)
+# sort the new titles list
+fixed_titles.sort()
+print(fixed_titles)  #//=>  ['1978 - Tales of the City', '1980 - More Tales of the City', '1982 - Further Tales of the City', '1984 - Babycakes', '1987 - Significant Others', '1989 - Sure of You', '2007 - Michael Tolliver Lives', '2010 - Mary Ann in Autumn', '2014 - The Days of Anna Madrigal']
